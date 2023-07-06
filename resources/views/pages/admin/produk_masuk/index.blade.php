@@ -3,10 +3,10 @@
 @section('content')
 <div class="container-fluid">
 
-    
+
     <div class="card">
         <div class="card-body">
-            <h4>Data Produk</h4>
+            <h4>Data Produk Masuk</h4>
         </div>
     </div>
 
@@ -27,7 +27,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="basic-form custom_file_input">
-                        <a href="/admin/produk/tambah" class="btn btn-success text-white ml-4"> <i class="fa-solid fa-plus"></i> &nbsp; Tambah Produk</a>
+                        <a href="/admin/produk_masuk/tambah" class="btn btn-success text-white ml-4"> <i
+                                class="fa-solid fa-plus"></i> &nbsp; Tambah Produk</a>
                     </div>
                     <div class="table-responsive mt-4">
                         <table id="example" class="display" style="min-width: 845px">
@@ -52,9 +53,9 @@
                                     <td class="text-dark">{{ $p->Stok_Produk }}</td>
                                     <td class="text-dark">{{ $p->Harga_Satuan_Produk }}</td>
                                     <td>
-                                        <a href="produk/edit/{{ $p->ID_Produk }}" data-toggle="tooltip" data-placement="top"
-                                            title="Perbaharui" class="btn mb-1 btn-warning" type="button"><i
-                                                class="fa fa-pencil color-muted m-r-5"></i></a>
+                                        <a href="produk/edit/{{ $p->ID_Produk }}" data-toggle="tooltip"
+                                            data-placement="top" title="Perbaharui" class="btn mb-1 btn-warning"
+                                            type="button"><i class="fa fa-pencil color-muted m-r-5"></i></a>
                                         |
                                         <a href="produk/hapus/{{ $p->ID_Produk }}" class="delete btn mb-1 btn-danger"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
@@ -74,10 +75,12 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 function largeimage(a) {
-   
-    $('#imagepreview').attr('src', $('#imageresource'+a).attr('src')); // here asign the image to the modal when the user click the enlarge link
-   $('#imagemodal').modal('show');
+
+    $('#imagepreview').attr('src', $('#imageresource' + a).attr(
+    'src')); // here asign the image to the modal when the user click the enlarge link
+    $('#imagemodal').modal('show');
 }
+
 function form_submit() {
     // Menjalankan validasi form sebelum menampilkan konfirmasi
     if (document.getElementById('form-submit').checkValidity()) {
@@ -101,7 +104,6 @@ function form_submit() {
         });
     }
 }
-
 </script>
 
 @endsection

@@ -1,131 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <!-- Basic Page Info -->
-    <meta charset="utf-8">
-    <title>Restoran Sudan Nikmat</title>
-
-    <!-- Site favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
-
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <!-- CSS -->
-    <link href="{{asset('assets/styles/core.css') }}" rel="stylesheet">
-    <link href="{{asset('assets/styles/icon-font.min.css') }}" rel="stylesheet">
-    <link href="{{asset('assets/plugins/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{asset('assets/plugins/datatables/css/responsive.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{asset('assets/styles/style.css') }}" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Restoran Sunda Nikmat</title>
+    <!-- Favicon icon -->
+    <link href="{{asset('assets/images/logo.png') }}" rel="shortcut icon">
+    <link href="{{asset('assets/css/style.css') }}" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Datatable -->
+    <link href="{{asset('assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
 </head>
 
 <body>
 
-    <div class="header">
-        <div class="header-left">
-            <div class="menu-icon dw dw-menu"></div>
-        </div>
-        <div class="header-right">
-            <div class="user-info-dropdown mt-2">
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-                        <span class="user-name">
-                            <!-- {{ session('nama') }} -->
-                        </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                        <a class="dropdown-item" href="/admin/profile"><i class="dw dw-user1"></i> Profile</a>
-                        <a class="dropdown-item" href="/logout"><i class="dw dw-logout"></i> Log Out</a>
-                    </div>
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="/admin/dashboard" class="brand-logo">
+                <img src="{{asset('assets/images/logo.png')}}" alt="" width='80' />&nbsp;
+                <span class="nav-text">Restoran SN</span>
+            </a>
+            <div class="nav-control">
+                <div class="hamburger" style=''>
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
                 </div>
             </div>
-            <div class="github-link">
-                <a href="https://github.com/dropways/deskapp" target="_blank"><img src="vendors/images/github.svg"
-                        alt=""></a>
-            </div>
         </div>
-    </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
 
-    <div class="left-side-bar">
-        <div class="brand-logo">
-            <a href="/admin/dashboard" style="font-size:14px;">
-                Restoran Sunda Nikmat
-                <!-- <img src="vendors/images/deskapp-logo.svg" alt="" class="dark-logo">
-                <img src="vendors/images/deskapp-logo-white.svg" alt="" class="light-logo"> -->
-            </a>
-            <div class="close-sidebar" data-toggle="left-sidebar-close">
-                <i class="ion-close-round"></i>
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+                        </div>
+                        <ul class="navbar-nav header-right">
+                            <li class="nav-item dropdown header-profile">
+                                <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                                    <i class="mdi mdi-account"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="/admin/profile" class="dropdown-item">
+                                        <i class="icon-user"></i>
+                                        <span class="ml-2">Profile </span>
+                                    </a>
+                                    <a href="/logout" class="dropdown-item">
+                                        <i class="icon-key"></i>
+                                        <span class="ml-2">Logout </span>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
         </div>
-        <div class="menu-block customscroll">
-            <div class="sidebar-menu">
-                <ul id="accordion-menu">
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="quixnav">
+            <div class="quixnav-scroll">
+                <ul class="metismenu">
+                    <li class="nav-label first">Main Menu</li>
                     <li>
-                        <a href="/admin/dashboard" class="dropdown-toggle no-arrow">
-                            <span class="micon dw dw-home"></span><span class="mtext">Dashboard</span>
-                        </a>
+                        <a href="/admin/dashboard" aria-expanded="false">
+                            <i class="icon icon-app-store"></i>
+                            <span class="nav-text">Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="/admin/produk" class="dropdown-toggle no-arrow">
-                            <span class="micon dw dw-box"></span><span class="mtext">Produk</span>
-                        </a>
+                        <a href="/admin/produk" aria-expanded="false">
+                            <i class="fa-regular fa-boxes-stacked"></i>
+                            <span class="nav-text">Produk</span></a>
                     </li>
                     <li>
-                        <a href="/admin/produk_masuk" class="dropdown-toggle no-arrow">
-                            <span class="micon dw dw-box"></span><span class="mtext">Produk Masuk</span>
-                        </a>
+                        <a href="/admin/produk_masuk" aria-expanded="false">
+                            <i class="fa-regular fa-box-archive"></i>
+                            <span class="nav-text">Produk Masuk</span></a>
                     </li>
                     <li>
-                        <a href="/admin/produk_keluar" class="dropdown-toggle no-arrow">
-                            <span class="micon dw dw-box"></span><span class="mtext">Produk Keluar</span>
-                        </a>
+                        <a href="/admin/produk_masuk" aria-expanded="false">
+                            <i class="fa-regular fa-box-archive"></i>
+                            <span class="nav-text">Produk Keluar</span></a>
                     </li>
                     <li>
-                        <a href="/admin/transaksi" class="dropdown-toggle no-arrow">
-                            <span class="micon dw dw-analytics-21"></span><span class="mtext">Daftar Transaksi</span>
-                        </a>
+                        <a href="/admin/transaksi" aria-expanded="false">
+                            <i class="fa fa-money"></i>
+                            <span class="nav-text">Daftar Transaksi</span></a>
                     </li>
                 </ul>
             </div>
         </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <!-- row -->
+            @yield('content')
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+        <!--**********************************
+           Support ticket button end
+        ***********************************-->
     </div>
-    <div class="mobile-menu-overlay"></div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
 
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="{{asset('assets/vendor/global/global.min.js') }}"></script>
+    <script src="{{asset('assets/js/quixnav-init.js') }}"></script>
+    <script src="{{asset('assets/js/custom.min.js') }}"></script>
 
-    @yield('content')
+    <!-- Datatable -->
+    <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{asset('assets/js/plugins-init/datatables.init.js') }}"></script>
 
-
-    <!-- js -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{asset('assets/scripts/core.js') }}"></script>
-    <script src="{{asset('assets/scripts/script.min.js') }}"></script>
-    <script src="{{asset('assets/scripts/process.js') }}"></script>
-    <script src="{{asset('assets/scripts/layout-settings.js') }}"></script>
-    <script src="{{asset('assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{asset('assets/scripts/dashboard.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.0/chart.min.js"></script>
-
-    <!-- buttons for Export datatable -->
-    <script src="{{asset('assets/plugins/datatables/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/buttons.html5.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/buttons.print.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/buttons.flash.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/pdfmake.min.js') }}"></script>
-    <script src="{{asset('assets/plugins/datatables/js/vfs_fonts.js') }}"></script>
-    <script src="src/"></script>
-    <!-- Datatable Setting js -->
-    <script src="{{asset('assets/scripts/datatable-setting.js') }}"></script>
 </body>
 
 </html>
