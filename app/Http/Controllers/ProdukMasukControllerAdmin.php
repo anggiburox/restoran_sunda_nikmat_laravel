@@ -23,8 +23,8 @@ class ProdukMasukControllerAdmin extends Controller
     }
 
     public function tambah(){
-		$kode = ProdukModel::all();
-        return view('pages/admin/produk_masuk/tambah', ['kode'=>$kode]);
+		$produk = ProdukModel::all();
+        return view('pages/admin/produk_masuk/tambah', ['produk'=>$produk]);
     }
 
     public function store(Request $request){

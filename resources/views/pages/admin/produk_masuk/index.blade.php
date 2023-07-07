@@ -50,14 +50,11 @@
                                     <td class="text-dark">{{ $no }}</td>
                                     <td class="text-dark">{{ $p->ID_Produk }}</td>
                                     <td class="text-dark">{{ $p->Nama_Produk }}</td>
-                                    <td class="text-dark">{{ $p->Stok_Produk }}</td>
-                                    <td class="text-dark">{{ $p->Harga_Satuan_Produk }}</td>
+                                    <td class="text-dark">{{ $p->Jumlah_Produk_Masuk }}</td>
+                                    <td class="text-dark">{{ date("d F Y", strtotime($p->Tanggal_Produk_Masuk)) }}</td>
                                     <td>
-                                        <a href="produk/edit/{{ $p->ID_Produk }}" data-toggle="tooltip"
-                                            data-placement="top" title="Perbaharui" class="btn mb-1 btn-warning"
-                                            type="button"><i class="fa fa-pencil color-muted m-r-5"></i></a>
-                                        |
-                                        <a href="produk/hapus/{{ $p->ID_Produk }}" class="delete btn mb-1 btn-danger"
+                                        <a href="produk_masuk/hapus/{{ $p->ID_Produk_Masuk }}"
+                                            class="delete btn mb-1 btn-danger"
                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"
                                             data-toggle="tooltip" data-placement="top" title="Hapus" type="button"><i
                                                 class="fa fa-trash color-muted m-r-5"></i></a>
@@ -77,7 +74,7 @@
 function largeimage(a) {
 
     $('#imagepreview').attr('src', $('#imageresource' + a).attr(
-    'src')); // here asign the image to the modal when the user click the enlarge link
+        'src')); // here asign the image to the modal when the user click the enlarge link
     $('#imagemodal').modal('show');
 }
 

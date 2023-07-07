@@ -5,7 +5,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h4>Form Tambah Produk</h4>
+            <h4>Form Tambah Produk Masuk</h4>
         </div>
     </div>
     <div class="row">
@@ -13,32 +13,49 @@
             <div class="card">
                 <div class="card-body">
                     <div class="basic-form custom_file_input">
-                        <form action="/admin/produk/store" method="POST" id='form-submit' enctype="multipart/form-data">
+                        <form action="/admin/produk_masuk/store" method="POST" id='form-submit'
+                            enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-row">
                                 <div class="col form-group">
-                                    <label class="text-dark"><b>ID Produk </b><label
+                                    <label class="text-dark select2"><b>Nama Produk </b><label
                                             style='color:red;'>*</label></label>
-                                    <input type="text" class="form-control" name="id_produk" value='{{$kode}}' required
+                                    <select name='id_produk' class='form-control' id="myselect" 
+                                        onchange=showdata() required>
+                                        <option value="">-- Pilih Data Nama Produk --</option>
+                                        @foreach($produk as $pr)
+                                        <option value="{{ $pr->ID_Produk }}" data-stokproduk='{{$pr->Stok_Produk}}'
+                                            data-harga='{{$pr->Harga_Satuan_Produk}}'>
+                                            {{ $pr->Nama_Produk}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="text-dark"><b>Stok Masuk </b><label
+                                            style='color:red;'>*</label></label>
+                                    <input type="number" min='0' class="form-control" name="" id='stok_produk' required
                                         readonly style='background:#e6e6fa;'>
-                                </div>
-                                <div class="col form-group">
-                                    <label class="text-dark"><b>Nama Produk </b><label
-                                            style='color:red;'>*</label></label>
-                                    <input type="text" class="form-control" name="nama_produk" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col form-group">
-                                    <label class="text-dark"><b>Stok Produk </b><label
-                                            style='color:red;'>*</label></label>
-                                    <input type="number" min='0' class="form-control" name="stok_produk" required>
                                 </div>
                                 <div class="col form-group">
                                     <label class="text-dark"><b>Harga Satuan Produk </b><label
                                             style='color:red;'>*</label></label>
-                                    <input type="text" class="form-control" id="rupiah" name="harga_satuan_produk"
+                                    <input type="text" class="form-control" name="" id='harga_satuan_produk' required
+                                        readonly style='background:#e6e6fa;'>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label class="text-dark"><b>Jumlah Produk Masuk </b><label
+                                            style='color:red;'>*</label></label>
+                                    <input type="number" min='0' class="form-control" name="jumlah_produk_masuk"
                                         required>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="text-dark"><b>Tanggal Produk Masuk </b><label
+                                            style='color:red;'>*</label></label>
+                                    <input type="date" class="form-control" value="<?php date("Y-m-d")?>"
+                                        name="tanggal_produk_masuk" required>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-success text-white"
@@ -53,10 +70,15 @@
 
 
 </div>
-
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
+$(document).ready(function() {
+    $('#myselect').select2();
+});
+
+// $('#myselect').select2({});
+
 function form_submit() {
     // Menjalankan validasi form sebelum menampilkan konfirmasi
     if (document.getElementById('form-submit').checkValidity()) {
@@ -81,29 +103,18 @@ function form_submit() {
     }
 }
 
-var rupiah = document.getElementById("rupiah");
-rupiah.addEventListener("keyup", function(e) {
-    // tambahkan 'Rp.' pada saat form di ketik
-    // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-    rupiah.value = formatRupiah(this.value, "Rp. ");
-});
-
-/* Fungsi formatRupiah */
-function formatRupiah(angka, prefix) {
-    var number_string = angka.replace(/[^,\d]/g, "").toString(),
-        split = number_string.split(","),
-        sisa = split[0].length % 3,
-        rupiah = split[0].substr(0, sisa),
-        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-    // tambahkan titik jika yang di input sudah menjadi angka ribuan
-    if (ribuan) {
-        separator = sisa ? "." : "";
-        rupiah += separator + ribuan.join(".");
+function showdata() {
+    var select = document.getElementById("myselect");
+    var selectedOption = select.options[select.selectedIndex];
+    var stok_ = selectedOption.getAttribute("data-stokproduk");
+    var harga_satuan = selectedOption.getAttribute("data-harga");
+    if (stok_ && harga_satuan) {
+        document.getElementById("stok_produk").value = stok_;
+        document.getElementById("harga_satuan_produk").value = harga_satuan;
+    } else {
+        document.getElementById("stok_produk").value = "";
+        document.getElementById("harga_satuan_produk").value = "";
     }
-
-    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
 }
 </script>
 
