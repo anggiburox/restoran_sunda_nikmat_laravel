@@ -21,7 +21,7 @@
                                     <label class="text-dark select2"><b>Nama Produk </b><label
                                             style='color:red;'>*</label></label>
                                     <select name='id_produk' class='form-control' id="myselect" 
-                                        onchange=showdata() required>
+                                        onchange="showdata()" required>
                                         <option value="">-- Pilih Data Nama Produk --</option>
                                         @foreach($produk as $pr)
                                         <option value="{{ $pr->ID_Produk }}" data-stokproduk='{{$pr->Stok_Produk}}'
@@ -73,11 +73,11 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#myselect').select2();
-});
+// $(document).ready(function() {
+//     $('#myselect').select2();
+// });
 
-// $('#myselect').select2({});
+$('#myselect').select2({});
 
 function form_submit() {
     // Menjalankan validasi form sebelum menampilkan konfirmasi
