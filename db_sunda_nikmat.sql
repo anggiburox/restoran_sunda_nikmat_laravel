@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2023 at 01:04 PM
+-- Generation Time: Jul 10, 2023 at 02:03 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.0.23
 
@@ -54,14 +54,14 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_resets_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2023_07_06_093211_create_produk_table', 1),
-(6, '2023_07_06_093347_create_produk_masuk_table', 1),
-(7, '2023_07_06_093400_create_produk_keluar_table', 1),
-(8, '2023_07_06_093508_create_users_role_table', 1);
+(34, '2014_10_12_000000_create_users_table', 1),
+(35, '2014_10_12_100000_create_password_resets_table', 1),
+(36, '2019_08_19_000000_create_failed_jobs_table', 1),
+(37, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(38, '2023_07_06_093211_create_produk_table', 1),
+(39, '2023_07_06_093347_create_produk_masuk_table', 1),
+(40, '2023_07_06_093508_create_users_role_table', 1),
+(41, '2023_07_10_080831_create_transaksi_table', 1);
 
 -- --------------------------------------------------------
 
@@ -109,26 +109,6 @@ CREATE TABLE `produk` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `produk`
---
-
-INSERT INTO `produk` (`ID_Produk`, `Nama_Produk`, `Stok_Produk`, `Harga_Satuan_Produk`, `created_at`, `updated_at`) VALUES
-('IP-0001', 'Nasi Goreng Pedas', 20, 'Rp. 15.000', NULL, NULL),
-('IP-0002', 'Nasi Goreng', 21, 'Rp. 21.000', NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `produk_keluar`
---
-
-CREATE TABLE `produk_keluar` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 -- --------------------------------------------------------
 
 --
@@ -147,19 +127,47 @@ CREATE TABLE `produk_masuk` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE `transaksi` (
+  `ID_Transaksi` bigint(20) UNSIGNED NOT NULL,
+  `Tanggal_Transaksi` date NOT NULL,
+  `Nama_Customer` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `No_Meja` int(11) NOT NULL,
+  `ID_Produk` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Sub_Total` int(11) NOT NULL,
+  `PB1` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Biaya_Service` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Total_Pembayaran` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Jenis_Pembayaran` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ID_User` int(10) UNSIGNED NOT NULL,
+  `Nama_Users` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Email_Users` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Password_Users` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ID_User_Roles` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`ID_User`, `Nama_Users`, `Email_Users`, `Password_Users`, `ID_User_Roles`, `created_at`, `updated_at`) VALUES
+(1, 'Admin Restoran SN', 'admin@gmail.com', 'admin', 1, NULL, NULL),
+(2, 'wawan', 'wawan@gmail.com', 'wawan', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -173,6 +181,15 @@ CREATE TABLE `users_role` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users_role`
+--
+
+INSERT INTO `users_role` (`ID_User_Roles`, `Role`, `created_at`, `updated_at`) VALUES
+(1, 'Admin', NULL, NULL),
+(2, 'SPV Owner', NULL, NULL),
+(3, 'Kasir', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -212,23 +229,22 @@ ALTER TABLE `produk`
   ADD PRIMARY KEY (`ID_Produk`);
 
 --
--- Indexes for table `produk_keluar`
---
-ALTER TABLE `produk_keluar`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `produk_masuk`
 --
 ALTER TABLE `produk_masuk`
   ADD PRIMARY KEY (`ID_Produk_Masuk`);
 
 --
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`ID_Transaksi`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`);
+  ADD PRIMARY KEY (`ID_User`);
 
 --
 -- Indexes for table `users_role`
@@ -250,18 +266,12 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `produk_keluar`
---
-ALTER TABLE `produk_keluar`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -271,16 +281,22 @@ ALTER TABLE `produk_masuk`
   MODIFY `ID_Produk_Masuk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `ID_Transaksi` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_User` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users_role`
 --
 ALTER TABLE `users_role`
-  MODIFY `ID_User_Roles` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_User_Roles` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
