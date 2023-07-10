@@ -13,12 +13,14 @@
     <!-- Datatable -->
     <link href="{{asset('assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
 
-    
-    <!-- select 2-->
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <!-- select 2-->
+    <link rel="stylesheet" href="{{asset('assets/vendor/select2/css/select2.min.css') }}">
+
+    <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+    <link href="{{asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet" />
+
 </head>
 
 <body>
@@ -85,11 +87,16 @@
         <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu">
-                    <li class="nav-label first">Main Menu</li>
+                    <li class="nav-label first text-white">Main Menu</li>
                     <li>
                         <a href="/admin/dashboard" aria-expanded="false">
                             <i class="icon icon-app-store"></i>
                             <span class="nav-text">Dashboard</span></a>
+                    </li>
+                    <li>
+                        <a href="/admin/users" aria-expanded="false">
+                            <i class="fa fa-users"></i>
+                            <span class="nav-text">Users</span></a>
                     </li>
                     <li>
                         <a href="/admin/produk" aria-expanded="false">
@@ -102,14 +109,14 @@
                             <span class="nav-text">Produk Masuk</span></a>
                     </li>
                     <li>
-                        <a href="/admin/produk_masuk" aria-expanded="false">
-                            <i class="fa-regular fa-box-archive"></i>
-                            <span class="nav-text">Produk Keluar</span></a>
-                    </li>
-                    <li>
                         <a href="/admin/transaksi" aria-expanded="false">
                             <i class="fa fa-money"></i>
                             <span class="nav-text">Daftar Transaksi</span></a>
+                    </li>
+                    <li>
+                        <a href="/admin/laporan" aria-expanded="false">
+                            <i class="bi bi-file-pdf-fill"></i>
+                            <span class="nav-text">Laporan</span></a>
                     </li>
                 </ul>
             </div>
@@ -153,6 +160,9 @@
     <!-- Datatable -->
     <script src="{{asset('assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{asset('assets/js/plugins-init/datatables.init.js') }}"></script>
+    <!-- select 2 -->
+    <script src="{{asset('assets/vendor/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{asset('assets/js/plugins-init/select2-init.js') }}"></script>
 
 </body>
 

@@ -11,7 +11,7 @@ class UsersModel extends Model
     use HasFactory;
 
     protected $table='users';  
-    protected $fillable=['ID_User','Nama','Username','Password'];  
+    protected $fillable=['ID_User','Nama_Users','Email_Users','Password_Users','ID_User_Roles'];  
     public $timestamps = false;
     public $incrementing = false;
     protected $primaryKey = 'ID_User';
@@ -25,11 +25,11 @@ class UsersModel extends Model
         return $brng;
     }
 
-    //kasir
+    //users role
     
-    public static function joinuserkasir(){
+    public static function joinuserroles(){
         $brng =  DB::table('users')
-        ->join('kasir', 'kasir.ID_Kasir', '=', 'users.ID_Kasir')
+        ->join('users_role', 'users_role.ID_User_Roles', '=', 'users.ID_User_Roles')
         ->get();
         return $brng;
     }   

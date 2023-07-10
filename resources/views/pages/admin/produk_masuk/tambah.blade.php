@@ -20,7 +20,7 @@
                                 <div class="col form-group">
                                     <label class="text-dark select2"><b>Nama Produk </b><label
                                             style='color:red;'>*</label></label>
-                                    <select name='id_produk' class='form-control' id="myselect" 
+                                    <select name='id_produk' class='form-control' id="single-select"
                                         onchange="showdata()" required>
                                         <option value="">-- Pilih Data Nama Produk --</option>
                                         @foreach($produk as $pr)
@@ -54,7 +54,7 @@
                                 <div class="col form-group">
                                     <label class="text-dark"><b>Tanggal Produk Masuk </b><label
                                             style='color:red;'>*</label></label>
-                                    <input type="date" class="form-control" value="<?php date("Y-m-d")?>"
+                                    <input type="date" class="form-control" value="<?= date("Y-m-d")?>"
                                         name="tanggal_produk_masuk" required>
                                 </div>
                             </div>
@@ -70,15 +70,8 @@
 
 
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-// $(document).ready(function() {
-//     $('#myselect').select2();
-// });
-
-$('#myselect').select2({});
-
 function form_submit() {
     // Menjalankan validasi form sebelum menampilkan konfirmasi
     if (document.getElementById('form-submit').checkValidity()) {
@@ -104,7 +97,7 @@ function form_submit() {
 }
 
 function showdata() {
-    var select = document.getElementById("myselect");
+    var select = document.getElementById("single-select");
     var selectedOption = select.options[select.selectedIndex];
     var stok_ = selectedOption.getAttribute("data-stokproduk");
     var harga_satuan = selectedOption.getAttribute("data-harga");
