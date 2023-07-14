@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <div class="basic-form custom_file_input">
                         <a href="/admin/transaksi/tambah" class="btn btn-success text-white ml-4"> <i
-                                class="fa-solid fa-plus"></i> &nbsp; Tambah Produk</a>
+                                class="fa-solid fa-plus"></i> &nbsp; Tambah Transaksi</a>
                     </div>
                     <div class="table-responsive mt-4">
                         <table id="example" class="display" style="min-width: 845px">
@@ -39,11 +39,13 @@
                                     <th>Nama Customer</th>
                                     <th>No Meja</th>
                                     <th>Nama Produk</th>
+                                    <th>QTY</th>
                                     <th>Sub Total</th>
                                     <th>PB1</th>
                                     <th>Biaya Service</th>
                                     <th>Total Pembayaran</th>
                                     <th>Jenis Pembaaran</th>
+                                    <th>Metode Pembaaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -57,11 +59,13 @@
                                     <td class="text-dark">{{ $p->Nama_Customer }}</td>
                                     <td class="text-dark">{{ $p->No_Meja }}</td>
                                     <td class="text-dark">{{ $p->Nama_Produk }}</td>
+                                    <td class="text-dark">{{ $p->QTY }}</td>
                                     <td class="text-dark">{{ $p->Sub_Total }}</td>
                                     <td class="text-dark">{{ $p->PB1 }} %</td>
                                     <td class="text-dark">{{ $p->Biaya_Service }} %</td>
                                     <td class="text-dark">{{ $p->Total_Pembayaran }}</td>
                                     <td class="text-dark">{{ $p->Jenis_Pembayaran }}</td>
+                                    <td class="text-dark">{{ $p->Metode_Pembayaran }}</td>
                                     <td>
                                         <a href="transaksi/hapus/{{ $p->ID_Transaksi }}"
                                             class="delete btn mb-1 btn-danger"

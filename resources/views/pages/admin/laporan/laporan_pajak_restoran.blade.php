@@ -22,11 +22,13 @@
                                     <th>Nama Customer</th>
                                     <th>No Meja</th>
                                     <th>Nama Produk</th>
+                                    <th>QTY</th>
                                     <th>Sub Total</th>
                                     <th>PB1</th>
                                     <th>Biaya Service</th>
                                     <th>Total Pembayaran</th>
                                     <th>Jenis Pembaaran</th>
+                                    <th>Metode Pembaaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -40,11 +42,13 @@
                                     <td class="text-dark">{{ $p->Nama_Customer }}</td>
                                     <td class="text-dark">{{ $p->No_Meja }}</td>
                                     <td class="text-dark">{{ $p->Nama_Produk }}</td>
+                                    <td class="text-dark">{{ $p->QTY }}</td>
                                     <td class="text-dark">{{ $p->Sub_Total }}</td>
                                     <td class="text-dark">{{ $p->PB1 }} %</td>
                                     <td class="text-dark">{{ $p->Biaya_Service }} %</td>
                                     <td class="text-dark">{{ $p->Total_Pembayaran }}</td>
                                     <td class="text-dark">{{ $p->Jenis_Pembayaran }}</td>
+                                    <td class="text-dark">{{ $p->Metode_Pembayaran }}</td>
                                     <td>
                                         <a href="transaksi/hapus/{{ $p->ID_Transaksi }}"
                                             class="delete btn mb-1 btn-danger"

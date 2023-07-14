@@ -35,7 +35,6 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>ID Users</th>
                                     <th>Nama Users</th>
                                     <th>Email Users</th>
                                     <th>Password Users</th>
@@ -49,7 +48,6 @@
                                 <?php $no++ ;?>
                                 <tr>
                                     <td class="text-dark">{{ $no }}</td>
-                                    <td class="text-dark">{{ $p->ID_User }}</td>
                                     <td class="text-dark">{{ $p->Nama_Users }}</td>
                                     <td class="text-dark">{{ $p->Email_Users }}</td>
                                     <td class="text-dark">{{ $p->Password_Users }}</td>

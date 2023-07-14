@@ -15,15 +15,17 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id('ID_Transaksi');
-            $table->date('Tanggal_Transaksi');
-            $table->string('Nama_Customer', 20);
-            $table->integer('No_Meja');
-            $table->string('ID_Produk', 20);
-            $table->integer('Sub_Total');
-            $table->string('PB1',10);
-            $table->string('Biaya_Service',10);
-            $table->string('Total_Pembayaran',50);
-            $table->string('Jenis_Pembayaran',50);
+            $table->date('Tanggal_Transaksi')->nullable();
+            $table->string('Nama_Customer', 20)->nullable();
+            $table->integer('No_Meja')->nullable();
+            $table->string('ID_Produk', 20)->nullable();
+            $table->integer('QTY')->nullable();
+            $table->string('Sub_Total',50)->nullable();
+            $table->string('PB1',10)->nullable();
+            $table->string('Biaya_Service',10)->nullable();
+            $table->string('Total_Pembayaran',50)->nullable();
+            $table->string('Jenis_Pembayaran',50)->nullable();
+            $table->string('Metode_Pembayaran',50)->nullable();
             $table->timestamps();
         });
     }

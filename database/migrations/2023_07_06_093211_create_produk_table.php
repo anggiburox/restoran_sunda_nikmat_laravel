@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('produk', function (Blueprint $table) {
             $table->string('ID_Produk',20)->primary();
-            $table->string('Nama_Produk', 50);
-            $table->integer('Stok_Produk');
-            $table->string('Harga_Satuan_Produk', 50);
+            $table->string('Nama_Produk', 50)->nullable();
+            $table->integer('Stok_Produk')->nullable();
+            $table->string('Harga_Satuan_Produk', 50)->nullable();
             $table->timestamps();
         });
     }

@@ -8,6 +8,11 @@
             <h4>Form Tambah Transaksi</h4>
         </div>
     </div>
+        @if(Session::has('error'))
+            <div class="alert alert-danger">
+                {{Session::get('error')}}
+            </div>
+        @endif
     <div class="row">
         <div class="col-xl-12 col-xxl-12">
             <div class="card">
@@ -63,11 +68,17 @@
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">
+                                    <label class="text-dark"><b>QTY </b><label style='color:red;'>*</label></label>
+                                    <input type="number" min='0' class="form-control" id="qty" name="qty" required>
+                                </div>
+                                <div class="col form-group">
                                     <label class="text-dark"><b>Sub Total </b><label
                                             style='color:red;'>*</label></label>
-                                    <input type="number" min='0' class="form-control" id="qty" name="sub_total"
-                                        required>
+                                    <input type="text" class="form-control" id="total_sub_total" name="sub_total"
+                                        required readonly style='background:#e6e6fa;'>
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="col form-group">
                                     <label class="text-dark"><b>PB 1 </b><label style='color:red;'>*</label></label>
                                     <div class="input-group mb-2">
@@ -100,7 +111,7 @@
                                 <div class="col form-group">
                                     <label class="text-dark"><b>Jenis Pembayaran </b><label
                                             style='color:red;'>*</label></label>
-                                    <select class="form-control" required name='pilih_data'
+                                    <select class="form-control" required name='jenis_pembayaran'
                                         onchange="showHidePaymentOptions()">
                                         <option value="">-- Pilih Jenis Pembayaran --</option>
                                         <option value="Cash">Cash</option>
@@ -111,10 +122,10 @@
                                     <div id="paymentOptions" style="display:none;">
                                         <br>
                                         <br>
-                                        <input type="radio" name="jenis_pembayaran" value="BCA"> BCA
-                                        <input type="radio" name="jenis_pembayaran" value="Mandiri"> Mandiri
-                                        <input type="radio" name="jenis_pembayaran" value="QRIS"> QRIS
-                                        Kredit<br>
+                                        <input type="radio" name="metode_pembayaran" value="BCA"> BCA
+                                        <input type="radio" name="metode_pembayaran" value="Mandiri"> Mandiri
+                                        <input type="radio" name="metode_pembayaran" value="QRIS"> QRIS
+                                        <br>
                                     </div>
                                 </div>
                             </div>
@@ -141,14 +152,24 @@ $(document).ready(function() {
         }
         var harga = parseInt(hargaString.replace("Rp.", "").replace(".", ""), 10);
         $('#total_harga').val("Rp.0");
+        var hargasubtotal = parseInt(hargaString.replace("Rp.", "").replace(".", ""), 10);
+        $('#total_sub_total').val("Rp.0");
 
         $('#qty, #pb1, #biaya_service').on('input', function() {
             var qty = parseFloat($('#qty').val()) || 0;
-            var pb1 = parseFloat($('#pb1').val()) || 0;
-            var biaya_service = parseFloat($('#biaya_service').val()) || 0;
+            // var pb1 = parseFloat($('#pb1').val()) || 0;
+            // var biaya_service = parseFloat($('#biaya_service').val()) || 0;
 
-            var total = harga * qty + pb1 + biaya_service;
-            $('#total_harga').val("Rp." + total.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+            var subtotal = harga * qty;
+
+            var total = subtotal * 0.12;
+
+            var totalhasil = subtotal + total;
+            
+            $('#total_harga').val("Rp." + totalhasil.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                "."));
+            $('#total_sub_total').val("Rp." + subtotal.toString().replace(
+                /\B(?=(\d{3})+(?!\d))/g,
                 "."));
         });
     });
@@ -156,7 +177,7 @@ $(document).ready(function() {
 
 
 function showHidePaymentOptions() {
-    var select = document.getElementsByName('pilih_data')[0];
+    var select = document.getElementsByName('jenis_pembayaran')[0];
     var div = document.getElementById('paymentOptions');
     if (select.value == 'Cashless') {
         div.style.display = 'block';

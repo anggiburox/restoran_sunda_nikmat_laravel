@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('produk_masuk', function (Blueprint $table) {
             $table->id('ID_Produk_Masuk');
-            $table->string('ID_Produk', 20);
-            $table->integer('Jumlah_Produk_Masuk');
-            $table->date('Tanggal_Produk_Masuk');
+            $table->string('ID_Produk', 20)->nullable();
+            $table->integer('Jumlah_Produk_Masuk')->nullable();
+            $table->date('Tanggal_Produk_Masuk')->nullable();
             $table->timestamps();
         });
     }

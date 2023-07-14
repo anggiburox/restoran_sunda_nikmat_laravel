@@ -7,7 +7,14 @@
         <div class="card-body">
             <h4>Form Perbaharui Users</h4>
         </div>
+    </div>    
+    
+    @if(Session::has('errors'))
+    <div class="alert alert-danger">
+        {{Session::get('errors')}}
     </div>
+    @endif
+    
     <div class="row">
         <div class="col-xl-12 col-xxl-12">
             <div class="card">

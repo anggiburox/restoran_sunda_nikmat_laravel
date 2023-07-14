@@ -11,7 +11,7 @@ class TransaksiModel extends Model
     use HasFactory;
 
     protected $table='transaksi';  
-    protected $fillable=['ID_Transaksi','Tanggal_Transaksi','Nama_Customer','No_Meja','ID_Produk','Sub_Total','PB1','Biaya_Service','Total_Pembayaran','Jenis_Pembayaran'];  
+    protected $fillable=['ID_Transaksi','Tanggal_Transaksi','Nama_Customer','No_Meja','ID_Produk','QTY','Sub_Total','PB1','Biaya_Service','Total_Pembayaran','Jenis_Pembayaran','Metode_Pembayaran'];  
     public $timestamps = false;
     public $incrementing = false;
     protected $primaryKey = 'ID_Transaksi';

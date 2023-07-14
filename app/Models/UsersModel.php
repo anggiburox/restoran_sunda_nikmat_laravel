@@ -16,11 +16,18 @@ class UsersModel extends Model
     public $incrementing = false;
     protected $primaryKey = 'ID_User';
 
+    public static function fetchusers($id)
+    {
+        $brng =  DB::table('users')
+        ->where('users.ID_User',$id)
+        ->first();
+        return $brng;
+    }
 
-    public static function fetchUser($id)
+    public static function fetchUserProfile($id)
     {   
         $brng =  DB::table('users')
-        ->where('users.Nama', $id)
+        ->where('users.ID_User', $id)
         ->get();
         return $brng;
     }
@@ -34,48 +41,48 @@ class UsersModel extends Model
         return $brng;
     }   
     
-    public static function fetchUserJoinKasir($id)
-    {   
-        $brng =  DB::table('users')
-        ->join('kasir', 'kasir.ID_Kasir', '=', 'users.ID_Kasir')
-        ->where('users.ID_User', $id)
-        ->get();
-        return $brng;
-    }
+    // public static function fetchUserJoinKasir($id)
+    // {   
+    //     $brng =  DB::table('users')
+    //     ->join('kasir', 'kasir.ID_Kasir', '=', 'users.ID_Kasir')
+    //     ->where('users.ID_User', $id)
+    //     ->get();
+    //     return $brng;
+    // }
 
-    public static function fetchjoinkasir($id)
-    {
-        $brng =  DB::table('users')
-        ->join('kasir', 'kasir.ID_Kasir', '=', 'users.ID_Kasir')
-        ->where('ID_User',$id)
-        ->first();
-        return $brng;
-    }
+    // public static function fetchjoinkasir($id)
+    // {
+    //     $brng =  DB::table('users')
+    //     ->join('kasir', 'kasir.ID_Kasir', '=', 'users.ID_Kasir')
+    //     ->where('ID_User',$id)
+    //     ->first();
+    //     return $brng;
+    // }
 
-    //spvowner
+    // //spvowner
     
-    public static function joinuserspvowner(){
-        $brng =  DB::table('spv_owner')
-        ->join('spv_owner', 'spv_owner.ID_SPV_Owner', '=', 'users.ID_SPV_Owner')
-        ->get();
-        return $brng;
-    }   
+    // public static function joinuserspvowner(){
+    //     $brng =  DB::table('spv_owner')
+    //     ->join('spv_owner', 'spv_owner.ID_SPV_Owner', '=', 'users.ID_SPV_Owner')
+    //     ->get();
+    //     return $brng;
+    // }   
 
-    public static function fetchUserJoinSPVOwner($id)
-    {   
-        $brng =  DB::table('users')
-        ->join('spv_owner', 'spv_owner.ID_SPV_Owner', '=', 'users.ID_SPV_Owner')
-        ->where('users.ID_User', $id)
-        ->get();
-        return $brng;
-    }
+    // public static function fetchUserJoinSPVOwner($id)
+    // {   
+    //     $brng =  DB::table('users')
+    //     ->join('spv_owner', 'spv_owner.ID_SPV_Owner', '=', 'users.ID_SPV_Owner')
+    //     ->where('users.ID_User', $id)
+    //     ->get();
+    //     return $brng;
+    // }
 
-    public static function fetchjoinSPVOwner($id)
-    {
-        $brng =  DB::table('users')
-        ->join('spv_owner', 'spv_owner.ID_SPV_Owner', '=', 'users.ID_SPV_Owner')
-        ->where('ID_User',$id)
-        ->first();
-        return $brng;
-    }
+    // public static function fetchjoinSPVOwner($id)
+    // {
+    //     $brng =  DB::table('users')
+    //     ->join('spv_owner', 'spv_owner.ID_SPV_Owner', '=', 'users.ID_SPV_Owner')
+    //     ->where('ID_User',$id)
+    //     ->first();
+    //     return $brng;
+    // }
 }

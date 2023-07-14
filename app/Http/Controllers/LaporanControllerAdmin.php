@@ -6,7 +6,7 @@ use App\Models\TransaksiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class LaporanController extends Controller
+class LaporanControllerAdmin extends Controller
 {
     /**
      * Display a listing of the resource.

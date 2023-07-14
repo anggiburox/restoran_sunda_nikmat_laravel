@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <div class="basic-form custom_file_input">
                         <a href="/admin/produk_masuk/tambah" class="btn btn-success text-white ml-4"> <i
-                                class="fa-solid fa-plus"></i> &nbsp; Tambah Produk</a>
+                                class="fa-solid fa-plus"></i> &nbsp; Tambah Produk Masuk</a>
                     </div>
                     <div class="table-responsive mt-4">
                         <table id="example" class="display" style="min-width: 845px">
@@ -37,8 +37,8 @@
                                     <th>No</th>
                                     <th>ID Produk</th>
                                     <th>Nama Produk</th>
-                                    <th>Stok Produk</th>
-                                    <th>Harga Satuan Produk</th>
+                                    <th>Jumlah Produk Masuk</th>
+                                    <th>Tanggal Produk Masuk</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
