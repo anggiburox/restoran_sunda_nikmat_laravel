@@ -58,12 +58,11 @@
                                 </div>
                                 <div class="col form-group">
                                     <label class="text-dark"><b>Roles </b><label style='color:red;'>*</label></label>
-                                    <select name='id_user_role' class='form-control' id="single-select"
-                                        onchange="showdata()" required>
+                                    <select name='id_user_role' class='form-control' id="single-select" onchange="showdata()" required>
                                         <option value="">-- Pilih Roles --</option>
                                         @foreach($usersrole as $pr)
-                                        <option value="{{ $pr->ID_User_Roles }}">
-                                            {{ $pr->Role}}
+                                        <option value="{{ $pr->ID_User_Roles }}" {{ $pr->ID_User_Roles == $p->ID_User_Roles ? 'selected' : '' }}>
+                                            {{ $pr->Role }}
                                         </option>
                                         @endforeach
                                     </select>
