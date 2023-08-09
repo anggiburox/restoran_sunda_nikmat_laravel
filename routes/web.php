@@ -86,6 +86,7 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('/admin/laporan/laporan_penjualan_detail', [LaporanControllerAdmin::class, 'laporan_penjualan_detail']);
     Route::get('/admin/laporan/laporan_pajak_restoran', [LaporanControllerAdmin::class, 'laporan_pajak_restoran']);
     Route::get('/admin/laporan/laporan_biaya_service', [LaporanControllerAdmin::class, 'laporan_biaya_service']);
+    Route::get('/admin/laporan/cetak/laporan_penjualan_detail', [LaporanControllerAdmin::class, 'cetak_laporan_penjualan_detail']);
 });
 
 Route::middleware(['auth','spv_owner'])->group(function () {

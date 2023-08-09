@@ -84,8 +84,19 @@ class TransaksiControllerAdmin extends Controller
     {
         // menghapus data transaksi berdasarkan id yang dipilih
         DB::table('transaksi')->where('ID_Transaksi', $id)->delete();
+        DB::table('transaksi_detail')->where('ID_Transaksi', $id)->delete();
 
         // alihkan halaman ke halaman transaksi
         return redirect('/admin/transaksi')->withDanger('Data berhasil dihapus');
+    }
+    public function detail($id){
+        $data = DB::table('transaksi')
+        ->join('transaksi_detail','transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
+        ->join('produk','produk.ID_produk', '=', 'transaksi_detail.ID_produk')
+        ->where('transaksi.ID_Transaksi',$id)
+        ->get();
+        // dd($data);
+
+        return response()->json($data);
     }
 }
