@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('transaksi', function (Blueprint $table) {
-            $table->id('ID_Transaksi');
+            $table->string('ID_Transaksi',20)->primary();
             $table->date('Tanggal_Transaksi')->nullable();
             $table->string('Nama_Customer', 20)->nullable();
             $table->integer('No_Meja')->nullable();

@@ -79,6 +79,7 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('/admin/transaksi/tambah', [TransaksiControllerAdmin::class, 'tambah']);
     Route::post('/admin/transaksi/store', [TransaksiControllerAdmin::class, 'store']);
     Route::get('/admin/transaksi/hapus/{id}',[TransaksiControllerAdmin::class, 'hapus']);
+    Route::get('/admin/transaksi/detail/{id}',[TransaksiControllerAdmin::class, 'detail']);
 
     //route admin laporan
     Route::get('/admin/laporan/', [LaporanControllerAdmin::class, 'index']);

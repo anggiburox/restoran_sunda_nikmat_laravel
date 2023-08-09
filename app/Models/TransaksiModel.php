@@ -22,5 +22,24 @@ class TransaksiModel extends Model
         ->get();
         return $brng;
     }
+    public static function kode()
+{
+    $kode = DB::table('transaksi')->max('ID_Transaksi');
+    $addNol = '';
+    $kode = str_replace("IT-", "", $kode);
+    $kode = (int) $kode + 1;
+    $incrementKode = $kode;
+
+    if (strlen($kode) == 1) {
+        $addNol = "000";
+    } elseif (strlen($kode) == 2) {
+        $addNol = "00";
+    } elseif (strlen($kode == 3)) {
+        $addNol = "0";
+    }
+
+    $kodeBaru = "IT-".$addNol.$incrementKode;
+    return $kodeBaru;
+}
 
 }

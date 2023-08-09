@@ -33,6 +33,8 @@
                                                 style='color:red;'>*</label></label>
                                         <input type="text" class="form-control" name="nama_customer" id="nama_customer"
                                             required>
+                                        <input type="text" class="form-control" name="id_transaksi" id="id_transaksi"
+                                            required value="{{$kode}}">
                                     </div>
                                     <div class="col form-group">
                                         <label class="text-dark"><b>No Meja </b><label style='color:red;'>*</label></label>
@@ -150,6 +152,7 @@
             $('#single-select').on('change', function() {
 
                 const selectedValue = $("#single-select option:selected").text();
+                const id_produk = $("#single-select option:selected").val();
                 console.log(selectedValue);
                 const hrg = $("#single-select option:selected").attr('data-harga');
                 const stok = $("#single-select option:selected").attr('data-stokproduk');
@@ -160,33 +163,34 @@
                 <tr>
                     <td>
                         ${selectedValue}
-                        <input type="hidden" class="form-control form-control-sm" id="hrg${rowCounter}" name="hrg${hrg}" value="${hrg}" required>
+                        <input type="text" class="form-control form-control-sm" id="hrg${rowCounter}" name="hrg[${rowCounter}]" value="${hrg}" required>
+                        <input type="text" class="form-control form-control-sm" id="id_produk${rowCounter}" name="id_produk[${rowCounter}]" value="${id_produk}" required>
                     </td>
                     <td> 
-                        <input type="number" min="0" max="${stok}" class="form-control form-control-sm qtyInput" oninput="calculateDpp(${rowCounter})" id="qty${rowCounter}" name="qty${rowCounter}" required>
-                        <input type="hidden" class="form-control form-control-sm"  id="totsub${rowCounter}" name="totsub${rowCounter}" value="Rp. 0" required>
+                        <input type="number" min="0" max="${stok}" class="form-control form-control-sm qtyInput" oninput="calculateDpp(${rowCounter})" id="qty${rowCounter}" name="qty[${rowCounter}]" required>
+                        <input type="text" class="form-control form-control-sm"  id="totsub${rowCounter}" name="totsub[${rowCounter}]" value="Rp. 0" required>
                     </td>
                     <td>
                         <div class="input-group input-group-sm">
-                            <input type="number" min='0' class="form-control form-control-sm tarifInput" oninput="calculateDpp(${rowCounter})" id="tarif_biaya_service${rowCounter}" name="tarif_biaya_service${rowCounter}" value="0" required>
+                            <input type="number" min='0' class="form-control form-control-sm tarifInput" oninput="calculateDpp(${rowCounter})" id="tarif_biaya_service${rowCounter}" name="tarif_biaya_service[${rowCounter}]" value="0" required>
                             <span class="input-group-text" id="inputGroup-sizing-sm">%</span>
                         </div>
-                        <input type="hidden" class="form-control form-control-sm" id="ser${rowCounter}" name="ser${rowCounter}" value="Rp. 0" required>
+                        <input type="text" class="form-control form-control-sm" id="ser${rowCounter}" name="ser[${rowCounter}]" value="Rp. 0" required>
 
                     </td>
                     <td>
-                        <input type="text" class="form-control form-control-sm" id="dpp${rowCounter}" name="dpp${rowCounter}" required readonly>
+                        <input type="text" class="form-control form-control-sm" id="dpp${rowCounter}" name="dpp[${rowCounter}]" required readonly>
                     </td>
                     <td>
                         <div class="input-group input-group-sm">
-                            <input type="number" min='0' class="form-control pbInput" id='pb${rowCounter}' oninput="calculateDpp(${rowCounter})" name="pb${rowCounter}" value="0" required>
+                            <input type="number" min='0' class="form-control pbInput" id='pb${rowCounter}' oninput="calculateDpp(${rowCounter})" name="pb[${rowCounter}]" value="0" required>
                             <span class="input-group-text" id="inputGroup-sizing-sm">%</span>
                         </div>
-                        <input type="hidden" class="form-control form-control-sm" id="totbp${rowCounter}" name="totbp${rowCounter}" value="Rp. 0" required>
+                        <input type="text" class="form-control form-control-sm" id="totbp${rowCounter}" name="totbp[${rowCounter}]" value="Rp. 0" required>
 
                     </td>
                     <td>
-                        <input type="text" class="form-control form-control-sm total_sub_total" id="total_sub_total${rowCounter}" name="total_sub_total${rowCounter}" required readonly>
+                        <input type="text" class="form-control form-control-sm total_sub_total" id="total_sub_total${rowCounter}" name="total_sub_total[${rowCounter}]" required readonly>
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger btn-sm deleteBtn">Delete</button>
@@ -215,7 +219,7 @@
         });
 
         function calculateDpp(rowNumber) {
-            console.log(rowNumber);
+            // console.log(rowNumber);
             let qty = parseFloat($(`#qty${rowNumber}`).val());
             let tarif_biaya_service = parseFloat($(`#tarif_biaya_service${rowNumber}`).val());
             let hrg = parseFloat($(`#hrg${rowNumber}`).val().replace("Rp.", "").replace(".", ""));
