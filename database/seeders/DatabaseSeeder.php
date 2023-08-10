@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users_role')->insert([
             ['Role' => 'Admin'],
-            ['Role' => 'SPV Owner'],
+            ['Role' => 'SPV Owner Manager'],
             ['Role' => 'Kasir'],
         ]);
         // \App\Models\User::factory(10)->create();
