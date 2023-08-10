@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2023 at 02:03 PM
+-- Generation Time: Aug 10, 2023 at 01:19 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.0.23
 
@@ -54,14 +54,15 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(34, '2014_10_12_000000_create_users_table', 1),
-(35, '2014_10_12_100000_create_password_resets_table', 1),
-(36, '2019_08_19_000000_create_failed_jobs_table', 1),
-(37, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(38, '2023_07_06_093211_create_produk_table', 1),
-(39, '2023_07_06_093347_create_produk_masuk_table', 1),
-(40, '2023_07_06_093508_create_users_role_table', 1),
-(41, '2023_07_10_080831_create_transaksi_table', 1);
+(59, '2014_10_12_000000_create_users_table', 1),
+(60, '2014_10_12_100000_create_password_resets_table', 1),
+(61, '2019_08_19_000000_create_failed_jobs_table', 1),
+(62, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(63, '2023_07_06_093211_create_produk_table', 1),
+(64, '2023_07_06_093347_create_produk_masuk_table', 1),
+(65, '2023_07_06_093508_create_users_role_table', 1),
+(66, '2023_07_10_080831_create_transaksi_table', 1),
+(67, '2023_08_08_142516_create_transaksi_detail_table', 1);
 
 -- --------------------------------------------------------
 
@@ -102,12 +103,20 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `produk` (
   `ID_Produk` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Nama_Produk` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Stok_Produk` int(11) NOT NULL,
-  `Harga_Satuan_Produk` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Nama_Produk` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Stok_Produk` int(11) DEFAULT NULL,
+  `Harga_Satuan_Produk` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`ID_Produk`, `Nama_Produk`, `Stok_Produk`, `Harga_Satuan_Produk`, `created_at`, `updated_at`) VALUES
+('IP-0001', 'Ayam', 18, 'Rp. 20.000', NULL, NULL),
+('IP-0002', 'Jus Jambu', 7, 'Rp. 15.000', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -117,9 +126,9 @@ CREATE TABLE `produk` (
 
 CREATE TABLE `produk_masuk` (
   `ID_Produk_Masuk` bigint(20) UNSIGNED NOT NULL,
-  `ID_Produk` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Jumlah_Produk_Masuk` int(11) NOT NULL,
-  `Tanggal_Produk_Masuk` date NOT NULL,
+  `ID_Produk` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Jumlah_Produk_Masuk` int(11) DEFAULT NULL,
+  `Tanggal_Produk_Masuk` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -131,19 +140,58 @@ CREATE TABLE `produk_masuk` (
 --
 
 CREATE TABLE `transaksi` (
-  `ID_Transaksi` bigint(20) UNSIGNED NOT NULL,
-  `Tanggal_Transaksi` date NOT NULL,
-  `Nama_Customer` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `No_Meja` int(11) NOT NULL,
-  `ID_Produk` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Sub_Total` int(11) NOT NULL,
-  `PB1` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Biaya_Service` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Total_Pembayaran` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `Jenis_Pembayaran` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ID_Transaksi` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Tanggal_Transaksi` date DEFAULT NULL,
+  `Nama_Customer` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `No_Meja` int(11) DEFAULT NULL,
+  `ID_Produk` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `QTY` int(11) DEFAULT NULL,
+  `Sub_Total` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PB1` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Biaya_Service` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Total_Pembayaran` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Jenis_Pembayaran` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Metode_Pembayaran` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`ID_Transaksi`, `Tanggal_Transaksi`, `Nama_Customer`, `No_Meja`, `ID_Produk`, `QTY`, `Sub_Total`, `PB1`, `Biaya_Service`, `Total_Pembayaran`, `Jenis_Pembayaran`, `Metode_Pembayaran`, `created_at`, `updated_at`) VALUES
+('IT-0001', '2023-08-10', 'Aden', 1, NULL, NULL, NULL, NULL, NULL, 'Rp. 102.850', 'Cash', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi_detail`
+--
+
+CREATE TABLE `transaksi_detail` (
+  `ID_Transaksi_Detail` bigint(20) UNSIGNED NOT NULL,
+  `ID_Transaksi` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ID_Produk` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `QTY` int(11) DEFAULT NULL,
+  `Sub_Total` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Tarif_Biaya_Service` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Biaya_Service` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `DPP` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `BP` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Biaya_BP` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Total` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `transaksi_detail`
+--
+
+INSERT INTO `transaksi_detail` (`ID_Transaksi_Detail`, `ID_Transaksi`, `ID_Produk`, `QTY`, `Sub_Total`, `Tarif_Biaya_Service`, `Biaya_Service`, `DPP`, `BP`, `Biaya_BP`, `Total`, `created_at`, `updated_at`) VALUES
+(1, 'IT-0001', 'IP-0001', 2, 'Rp. 40.000', '10', 'Rp. 4.000', 'Rp. 44.000', '10', 'Rp. 4.400', 'Rp. 48.400', NULL, NULL),
+(2, 'IT-0001', 'IP-0002', 3, 'Rp. 45.000', '10', 'Rp. 4.500', 'Rp. 49.500', '10', 'Rp. 4.950', 'Rp. 54.450', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -166,8 +214,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID_User`, `Nama_Users`, `Email_Users`, `Password_Users`, `ID_User_Roles`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Restoran SN', 'admin@gmail.com', 'admin', 1, NULL, NULL),
-(2, 'wawan', 'wawan@gmail.com', 'wawan', 3, NULL, NULL);
+(1, 'Admin Restoran SN', 'admin@gmail.com', 'admin', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -177,7 +224,7 @@ INSERT INTO `users` (`ID_User`, `Nama_Users`, `Email_Users`, `Password_Users`, `
 
 CREATE TABLE `users_role` (
   `ID_User_Roles` int(10) UNSIGNED NOT NULL,
-  `Role` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Role` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -188,7 +235,7 @@ CREATE TABLE `users_role` (
 
 INSERT INTO `users_role` (`ID_User_Roles`, `Role`, `created_at`, `updated_at`) VALUES
 (1, 'Admin', NULL, NULL),
-(2, 'SPV Owner', NULL, NULL),
+(2, 'SPV Owner Manager', NULL, NULL),
 (3, 'Kasir', NULL, NULL);
 
 --
@@ -241,6 +288,12 @@ ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`ID_Transaksi`);
 
 --
+-- Indexes for table `transaksi_detail`
+--
+ALTER TABLE `transaksi_detail`
+  ADD PRIMARY KEY (`ID_Transaksi_Detail`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -266,7 +319,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -281,16 +334,16 @@ ALTER TABLE `produk_masuk`
   MODIFY `ID_Produk_Masuk` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `transaksi`
+-- AUTO_INCREMENT for table `transaksi_detail`
 --
-ALTER TABLE `transaksi`
-  MODIFY `ID_Transaksi` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `transaksi_detail`
+  MODIFY `ID_Transaksi_Detail` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID_User` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_User` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users_role`

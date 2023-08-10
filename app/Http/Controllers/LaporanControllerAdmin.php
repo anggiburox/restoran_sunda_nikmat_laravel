@@ -22,7 +22,7 @@ class LaporanControllerAdmin extends Controller
         return view('pages/admin/laporan/index', ['pgw' => $pgw]);
     }
 
-    public function laporan_penjualan_detail()
+    public function laporan_data_transaksi()
     {
         $pgw =  DB::table('transaksi')
             ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
@@ -31,20 +31,56 @@ class LaporanControllerAdmin extends Controller
             $count =  DB::table('transaksi')->count();
             
         
+        return view('pages/admin/laporan/laporan_data_transaksi', ['pgw' => $pgw, 'count'=>$count]);
+    }
+
+    public function laporan_penjualan_detail()
+    {
+
+        $pgw =  DB::table('transaksi')
+        ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
+        ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
+        ->get();
+        $count =  DB::table('transaksi')->count();
+        
+    
         return view('pages/admin/laporan/laporan_penjualan_detail', ['pgw' => $pgw, 'count'=>$count]);
+        // $pgw = TransaksiModel::produkjointransaksi();
     }
 
-    public function laporan_pajak_restoran()
+    public function laporan_pb1_dan_biaya_service()
     {
-        $pgw = TransaksiModel::produkjointransaksi();
-        return view('pages/admin/laporan/laporan_pajak_restoran', ['pgw' => $pgw]);
+
+        $pgw =  DB::table('transaksi')
+        ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
+        ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
+        ->get();
+        $count =  DB::table('transaksi')->count();
+        
+    
+        return view('pages/admin/laporan/laporan_pb1_dan_biaya_service', ['pgw' => $pgw, 'count'=>$count]);
+        // $pgw = TransaksiModel::produkjointransaksi();
     }
 
-    public function laporan_biaya_service()
+    
+    public function cetak_laporan_data_transaksi()
     {
-        $pgw = TransaksiModel::produkjointransaksi();
-        return view('pages/admin/laporan/laporan_biaya_service', ['pgw' => $pgw]);
+        $data =  DB::table('transaksi')
+            ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
+            ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
+            ->get();
+
+        $count =  DB::table('transaksi')->count();
+           
+        $pgw = [
+            'data' => $data,
+            'count' => $count
+        ];
+        $pdf = PDF::loadView('pdf.laporan_penjualan_transaksi_detail', $pgw);
+        return $pdf->stream('invoice.pdf');
     }
+
+
     public function cetak_laporan_penjualan_detail()
     {
         $data =  DB::table('transaksi')
@@ -60,5 +96,22 @@ class LaporanControllerAdmin extends Controller
         ];
         $pdf = PDF::loadView('pdf.laporan_transaksi_detail', $pgw);
         return $pdf->stream('invoice.pdf');
+    }
+
+    public function cetak_laporan_pb1_dan_biaya_service()
+    {
+        $data =  DB::table('transaksi')
+        ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
+        ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
+        ->get();
+
+    $count =  DB::table('transaksi')->count();
+       
+    $pgw = [
+        'data' => $data,
+        'count' => $count
+    ];
+    $pdf = PDF::loadView('pdf.laporan_', $pgw);
+    return $pdf->stream('invoice.pdf');
     }
 }

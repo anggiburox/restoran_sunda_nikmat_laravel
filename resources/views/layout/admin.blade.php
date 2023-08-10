@@ -116,7 +116,7 @@
                     <li>
                         <a href="/admin/laporan" aria-expanded="false">
                             <i class="bi bi-file-pdf-fill"></i>
-                            <span class="nav-text">Laporan</span></a>
+                            <span class="nav-text">Data laporan</span></a>
                     </li>
                 </ul>
             </div>

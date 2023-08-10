@@ -107,8 +107,8 @@
                                     <th>Tarif Biaya Service</th>
                                     <th>Biaya Service</th>
                                     <th>DPP</th>
-                                    <th>Tarif BP 1</th>
-                                    <th>Biaya BP 1</th>
+                                    <th>Tarif PB 1</th>
+                                    <th>Biaya PB 1</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>

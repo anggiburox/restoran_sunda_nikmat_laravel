@@ -83,10 +83,12 @@ Route::middleware(['auth','admin'])->group(function () {
 
     //route admin laporan
     Route::get('/admin/laporan/', [LaporanControllerAdmin::class, 'index']);
+    Route::get('/admin/laporan/laporan_data_transaksi', [LaporanControllerAdmin::class, 'laporan_data_transaksi']);
     Route::get('/admin/laporan/laporan_penjualan_detail', [LaporanControllerAdmin::class, 'laporan_penjualan_detail']);
-    Route::get('/admin/laporan/laporan_pajak_restoran', [LaporanControllerAdmin::class, 'laporan_pajak_restoran']);
-    Route::get('/admin/laporan/laporan_biaya_service', [LaporanControllerAdmin::class, 'laporan_biaya_service']);
+    Route::get('/admin/laporan/laporan_pb1_dan_biaya_service', [LaporanControllerAdmin::class, 'laporan_pb1_dan_biaya_service']);
+    Route::get('/admin/laporan/cetak/laporan_data_transaksi', [LaporanControllerAdmin::class, 'cetak_laporan_data_transaksi']);
     Route::get('/admin/laporan/cetak/laporan_penjualan_detail', [LaporanControllerAdmin::class, 'cetak_laporan_penjualan_detail']);
+    Route::get('/admin/laporan/cetak/laporan_pb1_dan_biaya_service', [LaporanControllerAdmin::class, 'cetak_laporan_pb1_dan_biaya_service']);
 });
 
 Route::middleware(['auth','spv_owner'])->group(function () {

@@ -6,7 +6,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h4>Data Laporan Penjualan Detail</h4>
+            <h4>Data Laporan PB1 & Biaya Service</h4>
         </div>
     </div>
     <div class="row">
@@ -30,7 +30,6 @@
                                     <th>DPP</th>
                                     <th>Tarif PB1</th>
                                     <th>PB1</th>
-                                    <th>Total Penjualan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,7 +54,6 @@
                                     <td class="text-dark">{{ $p->DPP }}</td>
                                     <td class="text-dark">{{ $p->BP }} %</td>
                                     <td class="text-dark">{{ $p->Biaya_BP }}</td>
-                                    <td class="text-dark">{{ $p->Total_Pembayaran }}</td>
                                 </tr>
                                 @endforeach
                                 <tr>
