@@ -20,7 +20,7 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>ID_Transaksi</th>
+                                        <th>Nomor Pesanan</th>
                                         <th>Nama Produk</th>
                                         <th>QTY</th>
                                         <th>Harga Satuan Produk</th>

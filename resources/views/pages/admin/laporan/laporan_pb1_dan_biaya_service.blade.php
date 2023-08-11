@@ -13,7 +13,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <a href="/admin/laporan/cetak/laporan_penjualan_detail" target="_blank" class="btn btn-primary" ><i class="fa fa-print color-muted m-r-5"></i>
+                    <a href="/admin/laporan/cetak/laporan_pb1_dan_biaya_service" target="_blank" class="btn btn-primary" ><i class="fa fa-print color-muted m-r-5"></i>
                             Print</a>
                     <div class="table-responsive mt-4">
                         <table id="example" class="table table-striped table-bordered table-hover nowrap" style="min-width: 845px">

@@ -9,7 +9,7 @@
     <table style="width: 100%; text-align:center; margin-bottom:5px;">
         <tr>
             <td style="font-size: 14px; font-weight:bold;">
-                Laporan Detail Penjualan
+                Laporan PB1 & Biaya Service
 
             </td>
         </tr>
@@ -31,16 +31,16 @@
                 <th>DPP</th>
                 <th>Tarif PB1</th>
                 <th>PB1</th>
-                <th>TOTAL</th>
             </tr>
         </thead>
         <tbody>
             <?php $no = 0;
-            $sumTotal = 0; ?>
-          
+            $sumBiayaService = 0;
+                                $sumBiayaPB = 0; ?>
+            
             @foreach ($data as $p)
                 <?php
-                $tanggal = date('dmy', strtotime($p->Tanggal_Transaksi));
+                  $tanggal = date('dmy', strtotime($p->Tanggal_Transaksi));
                 $namaCustomer = strtoupper(str_replace(' ', '', $p->Nama_Customer));
                 $nomorMeja = str_pad($p->No_Meja, 2, '0', STR_PAD_LEFT);
                 $output = $tanggal . '-' . $namaCustomer . '-' . $nomorMeja;
@@ -54,8 +54,9 @@
                 $detail_BP = explode(',', $p->detail_BP);
                 $detail_Biaya_BP = explode(',', $p->detail_Biaya_BP);
                 $detail_Total = explode(',', $p->detail_Total);
-                $sumTotal += intval(str_replace(['Rp. ', '.'], '', $p->detail_Total));
                 $no++;
+                $sumBiayaService += intval(str_replace(["Rp. ", "."], "", $p->detail_Biaya_Service));
+                                    $sumBiayaPB += intval(str_replace(["Rp. ", "."], "", $p->detail_Biaya_BP));
                 ?>
                 <tr>
                     <td style="text-align: center;">{{ $no }}</td>
@@ -105,16 +106,15 @@
                             {{ $val }} <br>
                         @endforeach
                     </td>
-                    <td style="padding-left: 2px;">
-                        @foreach ($detail_Total as $val)
-                            {{ $val }} <br>
-                        @endforeach
-                    </td>
+                 
                 </tr>
             @endforeach
-            <tr class="" >
-                <th style="background-color: #f5d443;" colspan="11" style="padding-left: 2px;">Total : </th>
-                <th  style="background-color: #f5d443;" colspan="" style="padding-left: 2px;"> Rp. {{ number_format($sumTotal, 0, ',', '.') }}</th>
+            <tr>
+                <th  style="background-color: #f5d443;" colspan="7" style="padding-left: 2px;">Total :</th>
+                <th  style="background-color: #f5d443;" colspan="" style="text-align: center;">Rp. {{ number_format($sumBiayaService, 0, ',', '.') }}</th>
+                <th  style="background-color: #f5d443;" colspan="" style="text-align: center;"></th>
+                <th  style="background-color: #f5d443;" colspan="" style="text-align: center;"></th>
+                <th  style="background-color: #f5d443;" colspan="" style="text-align: center;">Rp. {{ number_format($sumBiayaPB, 0, ',', '.') }}</th>
             </tr>
         </tbody>
     </table>
