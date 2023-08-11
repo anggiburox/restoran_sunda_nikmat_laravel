@@ -16,7 +16,7 @@
                     <a href="/admin/laporan/cetak/laporan_penjualan_detail" target="_blank" class="btn btn-primary" ><i class="fa fa-print color-muted m-r-5"></i>
                             Print</a>
                     <div class="table-responsive mt-4">
-                        <table id="example" class="display" style="min-width: 845px">
+                        <table id="example" class="table table-striped table-bordered table-hover nowrap" style="min-width: 845px">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -33,31 +33,87 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $no = 0;?>
+                                <?php $no = 0;
+                                $sumBiayaService = 0;
+                                $sumBiayaPB = 0;?>
                                 @foreach($pgw as $p)
                                 <?php 
-                                    $tanggal = date("dmy", strtotime($p->Tanggal_Transaksi));
-                                    $namaCustomer = strtoupper(str_replace(" ", "", $p->Nama_Customer));
-                                    $nomorMeja = str_pad($p->No_Meja, 2, '0', STR_PAD_LEFT);
-                                    $output = $tanggal . '-' . $namaCustomer . '-' . $nomorMeja;
+                                  $tanggal = date('dmy', strtotime($p->Tanggal_Transaksi));
+                                        $namaCustomer = strtoupper(str_replace(' ', '', $p->Nama_Customer));
+                                        $nomorMeja = str_pad($p->No_Meja, 2, '0', STR_PAD_LEFT);
+                                        $output = $tanggal . '-' . $namaCustomer . '-' . $nomorMeja;
+                                        $namaproduk = explode(',', $p->produk_names);
+                                        $qtyproduk = explode(',', $p->detail_QTY);
+                                        $hargaroduk = explode(',', $p->produk_harga);
+                                        $detailsubtotal = explode(',', $p->detail_Sub_Total);
+                                        $detailTarifBiayaService = explode(',', $p->detail_Tarif_Biaya_Service);
+                                        $detail_Biaya_Service = explode(',', $p->detail_Biaya_Service);
+                                        $detail_DPP = explode(',', $p->detail_DPP);
+                                        $detail_BP = explode(',', $p->detail_BP);
+                                        $detail_Biaya_BP = explode(',', $p->detail_Biaya_BP);
+                                        $detail_Total = explode(',', $p->detail_Total);
                                     $no++ ;
+                                    $sumBiayaService += intval(str_replace(["Rp. ", "."], "", $p->detail_Biaya_Service));
+                                    $sumBiayaPB += intval(str_replace(["Rp. ", "."], "", $p->detail_Biaya_BP));
+
+
                                 ?>
                                 <tr>
                                     <td class="text-dark">{{ $no }}</td>
                                     <td class="text-dark">{{ $output }}</td>
-                                    <td class="text-dark">{{ $p->Nama_Produk }}</td>
-                                    <td class="text-dark">{{ $p->QTY }}</td>
-                                    <td class="text-dark">{{ $p->Harga_Satuan_Produk }}</td>
-                                    <td class="text-dark">{{ $p->Sub_Total }}</td>
-                                    <td class="text-dark">{{ $p->Tarif_Biaya_Service }} %</td>
-                                    <td class="text-dark">{{ $p->Biaya_Service }}</td>
-                                    <td class="text-dark">{{ $p->DPP }}</td>
-                                    <td class="text-dark">{{ $p->BP }} %</td>
-                                    <td class="text-dark">{{ $p->Biaya_BP }}</td>
+                                            <td class="text-dark">
+                                                @foreach ($namaproduk as $val)
+                                                    {{ $val }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark text-center">
+                                                @foreach ($qtyproduk as $val)
+                                                    {{ $val }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark">
+                                                @foreach ($hargaroduk as $val)
+                                                    {{ $val }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark">
+                                                @foreach ($detailsubtotal as $val)
+                                                    {{ $val }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark text-center">
+                                                @foreach ($detailTarifBiayaService as $val)
+                                                    {{ $val }}% <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark">
+                                                @foreach ($detail_Biaya_Service as $val)
+                                                    {{ $val }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark">
+                                                @foreach ($detail_DPP as $val)
+                                                    {{ $val }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark text-center">
+                                                @foreach ($detail_BP as $val)
+                                                    {{ $val }}% <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-dark">
+                                                @foreach ($detail_Biaya_BP as $val)
+                                                    {{ $val }} <br>
+                                                @endforeach
+                                            </td>
                                 </tr>
                                 @endforeach
                                 <tr>
-                                    <th colspan="4" class="text-dark text-center">Jumlah : {{ $p->Total_Pembayaran }}</th>
+                                    <th  style="background-color: #f5d443;" colspan="7" class="text-dark text-left">Total :</th>
+                                    <th  style="background-color: #f5d443;" colspan="" class="text-dark text-center">Rp. {{ number_format($sumBiayaService, 0, ',', '.') }}</th>
+                                    <th  style="background-color: #f5d443;" colspan="" class="text-dark text-center"></th>
+                                    <th  style="background-color: #f5d443;" colspan="" class="text-dark text-center"></th>
+                                    <th  style="background-color: #f5d443;" colspan="" class="text-dark text-center">Rp. {{ number_format($sumBiayaPB, 0, ',', '.') }}</th>
                                 </tr>
                             </tbody>
                         </table>
