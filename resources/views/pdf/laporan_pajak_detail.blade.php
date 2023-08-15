@@ -9,8 +9,17 @@
     <table style="width: 100%; text-align:center; margin-bottom:5px;">
         <tr>
             <td style="font-size: 14px; font-weight:bold;">
-                Laporan PB1 & Biaya Service
-
+                RESTORAN SUNDA NIKMAT
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight:bold;">
+                LAPORAN PAJAK RESTORAN
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 14px; font-weight:bold;">
+                PERIODE {{ $periodeawal }} S/D {{ $periodeakhir }}
             </td>
         </tr>
     </table>

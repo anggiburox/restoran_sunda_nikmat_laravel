@@ -11,9 +11,56 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <a href="/admin/laporan/cetak/laporan_penjualan_detail" target="_blank" class="btn btn-primary"><i
-                                class="fa fa-print color-muted m-r-5"></i>
-                            Print</a>
+                        <div class="row">
+                            <form method="GET" action="/admin/laporan/laporan_penjualan_detail">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="col form-group">
+                                        <label class="text-dark"><b>Periode Awal </b><label
+                                                style='color:red;'>*</label></label>
+                                        <input type="date" class="form-control" name="periodeawal" required>
+                                    </div>
+                                    <div class="col form-group">
+                                        <label class="text-dark"><b>Periode Akhir </b><label
+                                                style='color:red;'>*</label></label>
+                                        <input type="date" class="form-control" name="periodeakhir" required>
+                                    </div>
+                                    <div class="col form-group">
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 40px;"><i
+                                                class="fa fa-search color-muted m-r-5"></i>
+                                            Cari</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row">
+                            @if (isset($start_date))
+                                <form action="/admin/laporan/cetak/laporan_penjualan_detail" target="_blank">
+                                    <div class="col">
+                                        <input type="hidden" name="cetakperiodeawal" value="{{ $start_date }}"
+                                            id="">
+                                        <input type="hidden" name="cetakperiodeakhir" value="{{ $end_date }}"
+                                            id="">
+                                        <button type="submit" class="btn btn-primary"><i
+                                                class="fa fa-print color-muted m-r-5"></i>
+                                            Print</button>
+                                    </div>
+                                </form>
+                            @endif
+
+                        </div>
+                        {{-- <div class="row">
+                            <div class="col">
+                              
+                            </div>
+                            <div class="col">
+                                <a href="/admin/laporan/cetak/laporan_penjualan_detail" target="_blank" class="btn btn-primary"><i
+                                    class="fa fa-print color-muted m-r-5"></i>
+                                    Print</a>
+                                </div>
+                                
+                            </div>
+                        </form> --}}
                         <div class="table-responsive mt-4">
                             <table id="example" class="table table-striped table-bordered table-hover nowrap"
                                 style="min-width: 845px">
@@ -34,8 +81,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $no = 0; 
-                                    $sumTotal = 0;?>
+                                    <?php $no = 0;
+                                    $sumTotal = 0; ?>
                                     @foreach ($pgw as $p)
                                         <?php
                                         $tanggal = date('dmy', strtotime($p->Tanggal_Transaksi));
@@ -111,9 +158,11 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                    <tr class="" >
-                                        <th style="background-color: #f5d443;" colspan="11" class="text-dark text-left">Total : </th>
-                                        <th  style="background-color: #f5d443;" colspan="" class="text-dark text-left"> Rp. {{ number_format($sumTotal, 0, ',', '.') }}</th>
+                                    <tr class="">
+                                        <th style="background-color: #f5d443;" colspan="11" class="text-dark text-left">
+                                            Total : </th>
+                                        <th style="background-color: #f5d443;" colspan="" class="text-dark text-left">
+                                            Rp. {{ number_format($sumTotal, 0, ',', '.') }}</th>
                                     </tr>
 
                                 </tbody>
