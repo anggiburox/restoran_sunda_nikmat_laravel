@@ -101,8 +101,9 @@ Route::middleware(['auth','spv_owner'])->group(function () {
     //route spv_owner laporan
     Route::get('/spv_owner/laporan/', [LaporanControllerSPVOwner::class, 'index']);
     Route::get('/spv_owner/laporan/laporan_penjualan_detail', [LaporanControllerSPVOwner::class, 'laporan_penjualan_detail']);
-    Route::get('/spv_owner/laporan/laporan_pajak_restoran', [LaporanControllerSPVOwner::class, 'laporan_pajak_restoran']);
-    Route::get('/spv_owner/laporan/laporan_biaya_service', [LaporanControllerSPVOwner::class, 'laporan_biaya_service']);
+    Route::get('/spv_owner/laporan/laporan_pb1_dan_biaya_service', [LaporanControllerSPVOwner::class, 'laporan_pb1_dan_biaya_service']);
+    Route::get('/spv_owner/laporan/cetak/laporan_penjualan_detail', [LaporanControllerSPVOwner::class, 'cetak_laporan_penjualan_detail']);
+    Route::get('/spv_owner/laporan/cetak/laporan_pb1_dan_biaya_service', [LaporanControllerSPVOwner::class, 'cetak_laporan_pb1_dan_biaya_service']);
 });
 
 Route::middleware(['auth','kasir'])->group(function () {
@@ -131,6 +132,7 @@ Route::middleware(['auth','kasir'])->group(function () {
     Route::get('/kasir/transaksi/tambah', [TransaksiControllerKasir::class, 'tambah']);
     Route::post('/kasir/transaksi/store', [TransaksiControllerKasir::class, 'store']);
     Route::get('/kasir/transaksi/hapus/{id}',[TransaksiControllerKasir::class, 'hapus']);
+    Route::get('/kasir/transaksi/detail/{id}',[TransaksiControllerKasir::class, 'detail']);
 });
 
 
