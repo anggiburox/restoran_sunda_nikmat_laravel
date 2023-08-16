@@ -6,6 +6,7 @@ use App\Models\TransaksiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Carbon;
 
 class LaporanControllerSPVOwner extends Controller
 {
@@ -22,8 +23,10 @@ class LaporanControllerSPVOwner extends Controller
         return view('pages/spv_owner/laporan/index',['pgw' => $pgw]);
     }
     
-    public function laporan_penjualan_detail()
+    public function laporan_penjualan_detail(Request $request)
     {
+        $start_date = $request->periodeawal;
+        $end_date = $request->periodeakhir;
 
         $pgw = DB::table('transaksi')
             ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
@@ -46,20 +49,23 @@ class LaporanControllerSPVOwner extends Controller
                 DB::raw('GROUP_CONCAT(transaksi_detail.Biaya_BP) as detail_Biaya_BP'),
                 DB::raw('GROUP_CONCAT(transaksi_detail.Total) as detail_Total'),
                 // DB::raw('(SELECT COUNT(*) FROM transaksi AS t WHERE t.ID_Transaksi = transaksi.ID_Transaksi) as count')
-            )
+            )->when($start_date && $end_date, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('transaksi.Tanggal_Transaksi', [$start_date, $end_date]);
+            })
             ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
             ->get();
         // dd($pgw);
         $count =  DB::table('transaksi')->count();
 
 
-        return view('pages/spv_owner/laporan/laporan_penjualan_detail', ['pgw' => $pgw, 'count' => $count]);
+        return view('pages/spv_owner/laporan/laporan_penjualan_detail', ['pgw' => $pgw, 'count' => $count, 'start_date' => $start_date, 'end_date' => $end_date]);
         // $pgw = TransaksiModel::produkjointransaksi();
     }
 
-    public function laporan_pb1_dan_biaya_service()
+    public function laporan_pb1_dan_biaya_service(Request $request)
     {
-
+        $start_date = $request->periodeawal;
+        $end_date = $request->periodeakhir;
         $pgw = DB::table('transaksi')
             ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
             ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
@@ -81,18 +87,22 @@ class LaporanControllerSPVOwner extends Controller
                 DB::raw('GROUP_CONCAT(transaksi_detail.Biaya_BP) as detail_Biaya_BP'),
                 DB::raw('GROUP_CONCAT(transaksi_detail.Total) as detail_Total'),
                 // DB::raw('(SELECT COUNT(*) FROM transaksi AS t WHERE t.ID_Transaksi = transaksi.ID_Transaksi) as count')
-            )
+            )->when($start_date && $end_date, function ($query) use ($start_date, $end_date) {
+                return $query->whereBetween('transaksi.Tanggal_Transaksi', [$start_date, $end_date]);
+            })
             ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
             ->get();
         $count =  DB::table('transaksi')->count();
 
 
-        return view('pages/spv_owner/laporan/laporan_pb1_dan_biaya_service', ['pgw' => $pgw, 'count' => $count]);
+        return view('pages/spv_owner/laporan/laporan_pb1_dan_biaya_service', ['pgw' => $pgw, 'count' => $count, 'start_date' => $start_date, 'end_date' => $end_date]);
         // $pgw = TransaksiModel::produkjointransaksi();
     }
 
-    public function cetak_laporan_penjualan_detail()
+    public function cetak_laporan_penjualan_detail(Request $request)
     {
+        $periodeawal = $request->cetakperiodeawal;
+        $periodeakhir = $request->cetakperiodeakhir;
         $data = DB::table('transaksi')
             ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
             ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
@@ -114,22 +124,30 @@ class LaporanControllerSPVOwner extends Controller
                 DB::raw('GROUP_CONCAT(transaksi_detail.Biaya_BP) as detail_Biaya_BP'),
                 DB::raw('GROUP_CONCAT(transaksi_detail.Total) as detail_Total'),
                 // DB::raw('(SELECT COUNT(*) FROM transaksi AS t WHERE t.ID_Transaksi = transaksi.ID_Transaksi) as count')
-            )
+            )->whereBetween('transaksi.Tanggal_Transaksi', [$periodeawal, $periodeakhir])
             ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
             ->get();
+            Carbon::setLocale('id');
+            $periodeawal = Carbon::createFromFormat('Y-m-d', $periodeawal)->translatedFormat('d F Y');
+            $periodeakhir = Carbon::createFromFormat('Y-m-d', $periodeakhir)->translatedFormat('d F Y');
 
         $count =  DB::table('transaksi')->count();
 
         $pgw = [
             'data' => $data,
-            'count' => $count
+            'count' => $count,
+            'periodeawal' => $periodeawal,
+            'periodeakhir' => $periodeakhir
         ];
         $pdf = PDF::loadView('pdf.laporan_transaksi_detail', $pgw);
-        return $pdf->stream('invoice.pdf');
+        return $pdf->stream('Laporan_Penjualan_Detail.pdf');
     }
 
-    public function cetak_laporan_pb1_dan_biaya_service()
+    public function cetak_laporan_pb1_dan_biaya_service(Request $request)
     {
+        $periodeawal = $request->cetakperiodeawal;
+        $periodeakhir = $request->cetakperiodeakhir;
+    //    dd(periode)
         $data = DB::table('transaksi')
             ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
             ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
@@ -151,18 +169,24 @@ class LaporanControllerSPVOwner extends Controller
                 DB::raw('GROUP_CONCAT(transaksi_detail.Biaya_BP) as detail_Biaya_BP'),
                 DB::raw('GROUP_CONCAT(transaksi_detail.Total) as detail_Total'),
                 // DB::raw('(SELECT COUNT(*) FROM transaksi AS t WHERE t.ID_Transaksi = transaksi.ID_Transaksi) as count')
-            )
+            )->whereBetween('transaksi.Tanggal_Transaksi', [$periodeawal, $periodeakhir])
             ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
             ->get();
+
+            Carbon::setLocale('id');
+            $periodeawal = Carbon::createFromFormat('Y-m-d', $periodeawal)->translatedFormat('d F Y');
+            $periodeakhir = Carbon::createFromFormat('Y-m-d', $periodeakhir)->translatedFormat('d F Y');
 
         $count =  DB::table('transaksi')->count();
 
         $pgw = [
             'data' => $data,
-            'count' => $count
+            'count' => $count,
+            'periodeawal' => $periodeawal,
+            'periodeakhir' => $periodeakhir
         ];
         $pdf = PDF::loadView('pdf.laporan_pajak_detail', $pgw);
-        return $pdf->stream('invoice.pdf');
+        return $pdf->stream('Laporan_Pajak.pdf');
     }
 
 }
