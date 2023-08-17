@@ -72,7 +72,7 @@ class LaporanControllerAdmin extends Controller
             )->when($start_date && $end_date, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('transaksi.Tanggal_Transaksi', [$start_date, $end_date]);
             })
-            ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
+            ->groupBy('transaksi.ID_Transaksi', 'transaksi.Tanggal_Transaksi', 'transaksi.Nama_Customer', 'transaksi.No_Meja')
             ->get();
         // dd($pgw);
         $count =  DB::table('transaksi')->count();
@@ -110,7 +110,7 @@ class LaporanControllerAdmin extends Controller
             )->when($start_date && $end_date, function ($query) use ($start_date, $end_date) {
                 return $query->whereBetween('transaksi.Tanggal_Transaksi', [$start_date, $end_date]);
             })
-            ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
+            ->groupBy('transaksi.ID_Transaksi', 'transaksi.Tanggal_Transaksi', 'transaksi.Nama_Customer', 'transaksi.No_Meja')
             ->get();
         $count =  DB::table('transaksi')->count();
 
@@ -164,11 +164,11 @@ class LaporanControllerAdmin extends Controller
                 DB::raw('GROUP_CONCAT(transaksi_detail.Total) as detail_Total'),
                 // DB::raw('(SELECT COUNT(*) FROM transaksi AS t WHERE t.ID_Transaksi = transaksi.ID_Transaksi) as count')
             )->whereBetween('transaksi.Tanggal_Transaksi', [$periodeawal, $periodeakhir])
-            ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
+            ->groupBy('transaksi.ID_Transaksi', 'transaksi.Tanggal_Transaksi', 'transaksi.Nama_Customer', 'transaksi.No_Meja')
             ->get();
-            Carbon::setLocale('id');
-            $periodeawal = Carbon::createFromFormat('Y-m-d', $periodeawal)->translatedFormat('d F Y');
-            $periodeakhir = Carbon::createFromFormat('Y-m-d', $periodeakhir)->translatedFormat('d F Y');
+        Carbon::setLocale('id');
+        $periodeawal = Carbon::createFromFormat('Y-m-d', $periodeawal)->translatedFormat('d F Y');
+        $periodeakhir = Carbon::createFromFormat('Y-m-d', $periodeakhir)->translatedFormat('d F Y');
 
         $count =  DB::table('transaksi')->count();
 
@@ -186,7 +186,7 @@ class LaporanControllerAdmin extends Controller
     {
         $periodeawal = $request->cetakperiodeawal;
         $periodeakhir = $request->cetakperiodeakhir;
-    //    dd(periode)
+        //    dd(periode)
         $data = DB::table('transaksi')
             ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
             ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
@@ -209,12 +209,12 @@ class LaporanControllerAdmin extends Controller
                 DB::raw('GROUP_CONCAT(transaksi_detail.Total) as detail_Total'),
                 // DB::raw('(SELECT COUNT(*) FROM transaksi AS t WHERE t.ID_Transaksi = transaksi.ID_Transaksi) as count')
             )->whereBetween('transaksi.Tanggal_Transaksi', [$periodeawal, $periodeakhir])
-            ->groupBy('transaksi.ID_Transaksi','transaksi.Tanggal_Transaksi','transaksi.Nama_Customer','transaksi.No_Meja')
+            ->groupBy('transaksi.ID_Transaksi', 'transaksi.Tanggal_Transaksi', 'transaksi.Nama_Customer', 'transaksi.No_Meja')
             ->get();
 
-            Carbon::setLocale('id');
-            $periodeawal = Carbon::createFromFormat('Y-m-d', $periodeawal)->translatedFormat('d F Y');
-            $periodeakhir = Carbon::createFromFormat('Y-m-d', $periodeakhir)->translatedFormat('d F Y');
+        Carbon::setLocale('id');
+        $periodeawal = Carbon::createFromFormat('Y-m-d', $periodeawal)->translatedFormat('d F Y');
+        $periodeakhir = Carbon::createFromFormat('Y-m-d', $periodeakhir)->translatedFormat('d F Y');
 
         $count =  DB::table('transaksi')->count();
 
@@ -226,5 +226,134 @@ class LaporanControllerAdmin extends Controller
         ];
         $pdf = PDF::loadView('pdf.laporan_pajak_detail', $pgw);
         return $pdf->stream('Laporan_Pajak.pdf');
+    }
+
+    public function grafikpajak(Request $request)
+    {
+        $periodeawal = $request->awal;
+        $periodeakhir = $request->akhir;
+
+        $data = DB::table('transaksi')
+            ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
+            ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
+            ->select(
+                'transaksi.Tanggal_Transaksi',
+                DB::raw('GROUP_CONCAT(transaksi_detail.Biaya_Service) as detail_Biaya_Service'),
+                DB::raw('GROUP_CONCAT(transaksi_detail.Biaya_BP) as detail_Biaya_BP'),
+            )->whereBetween('transaksi.Tanggal_Transaksi', [$periodeawal, $periodeakhir])
+            ->groupBy('transaksi.Tanggal_Transaksi')
+            ->get();
+        $totalBiayaPBPerTanggal = [];
+        $totalBiayaServicePerTanggal = [];
+
+        // Loop melalui setiap entri dalam $data
+        foreach ($data as $item) {
+            $tanggal = $item->Tanggal_Transaksi;
+            $biayaService = $item->detail_Biaya_Service;
+            $biayaPB = $item->detail_Biaya_BP;
+
+            $biayaServiceArray = explode(',', str_replace(['Rp. ', '.'], '', $biayaService));
+            $biayaPBArray = explode(',', str_replace(['Rp. ', '.'], '', $biayaPB));
+
+            // Konversi setiap elemen dalam array menjadi integer
+            $biayaServiceArray = array_map(function ($biaya) {
+
+                return intval($biaya);
+            }, $biayaServiceArray);
+            $biayaPBArray = array_map(function ($biayapb) {
+
+                return intval($biayapb);
+            }, $biayaPBArray);
+
+
+            // Hitung total biaya service untuk entri ini
+            $totalBiayaService = array_sum($biayaServiceArray);
+            $totalBiayaPB = array_sum($biayaPBArray);
+
+            // Simpan total biaya service per Tanggal_Transaksi
+            if (array_key_exists($tanggal, $totalBiayaServicePerTanggal)) {
+                $totalBiayaServicePerTanggal[$tanggal] += $totalBiayaService;
+            } else {
+                $totalBiayaServicePerTanggal[$tanggal] = $totalBiayaService;
+            }
+            if (array_key_exists($tanggal, $totalBiayaPBPerTanggal)) {
+                $totalBiayaPBPerTanggal[$tanggal] += $totalBiayaPB;
+            } else {
+                $totalBiayaPBPerTanggal[$tanggal] = $totalBiayaPB;
+            }
+        }
+
+        $totalBiayaPerTanggal = [];
+        foreach ($totalBiayaServicePerTanggal as $tanggal => $totalService) {
+            if (array_key_exists($tanggal, $totalBiayaPBPerTanggal)) {
+                $totalPB = $totalBiayaPBPerTanggal[$tanggal];
+            } else {
+                $totalPB = 0;
+            }
+            $totalBiayaPerTanggal[$tanggal] = [
+                'totalService' => $totalService,
+                'totalPB' => $totalPB,
+            ];
+        }
+
+        return response()->json($totalBiayaPerTanggal);
+    }
+    public function grafikpenjualan(Request $request)
+    {
+        $periodeawal = $request->awal;
+        $periodeakhir = $request->akhir;
+
+        $data = DB::table('transaksi')
+            ->join('transaksi_detail', 'transaksi_detail.ID_Transaksi', '=', 'transaksi.ID_Transaksi')
+            ->join('produk', 'produk.ID_produk', '=', 'transaksi_detail.ID_produk')
+            ->select(
+                'transaksi.Tanggal_Transaksi',
+                DB::raw('GROUP_CONCAT(transaksi_detail.Total) as detail_Total'),
+            )->whereBetween('transaksi.Tanggal_Transaksi', [$periodeawal, $periodeakhir])
+            ->groupBy('transaksi.Tanggal_Transaksi')
+            ->get();
+        $totalPerTanggal = [];
+
+        // Loop melalui setiap entri dalam $data
+        foreach ($data as $item) {
+            $tanggal = $item->Tanggal_Transaksi;
+            $total = $item->detail_Total;
+
+            $totalArray = explode(',', str_replace(['Rp. ', '.'], '', $total));
+
+            // Konversi setiap elemen dalam array menjadi integer
+            $totalArray = array_map(function ($biaya) {
+
+                return intval($biaya);
+            }, $totalArray);
+           
+
+
+            // Hitung total biaya service untuk entri ini
+            $sumtotal = array_sum($totalArray);
+
+            // Simpan total biaya service per Tanggal_Transaksi
+            if (array_key_exists($tanggal, $totalPerTanggal)) {
+                $totalPerTanggal[$tanggal] += $sumtotal;
+            } else {
+                $totalPerTanggal[$tanggal] = $sumtotal;
+            }
+           
+        }
+
+        // $totalBiayaPerTanggal = [];
+        // foreach ($totalPerTanggal as $tanggal => $totalService) {
+        //     if (array_key_exists($tanggal, $totalBiayaPBPerTanggal)) {
+        //         $totalPB = $totalBiayaPBPerTanggal[$tanggal];
+        //     } else {
+        //         $totalPB = 0;
+        //     }
+        //     $totalBiayaPerTanggal[$tanggal] = [
+        //         'totalService' => $totalService,
+        //         'totalPB' => $totalPB,
+        //     ];
+        // }
+
+        return response()->json($totalPerTanggal);
     }
 }

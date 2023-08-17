@@ -64,8 +64,6 @@
                 $detail_Biaya_BP = explode(',', $p->detail_Biaya_BP);
                 $detail_Total = explode(',', $p->detail_Total);
                 $no++;
-                $sumBiayaService += intval(str_replace(["Rp. ", "."], "", $p->detail_Biaya_Service));
-                                    $sumBiayaPB += intval(str_replace(["Rp. ", "."], "", $p->detail_Biaya_BP));
                 ?>
                 <tr>
                     <td style="text-align: center;">{{ $no }}</td>
@@ -97,6 +95,10 @@
                     </td>
                     <td style="padding-left: 2px;">
                         @foreach ($detail_Biaya_Service as $val)
+                        <?php
+                        $sumBiayaService += intval(str_replace(['Rp. ', '.'], '', $val));
+                        ?>
+
                             {{ $val }} <br>
                         @endforeach
                     </td>
@@ -112,6 +114,9 @@
                     </td>
                     <td style="padding-left: 2px;">
                         @foreach ($detail_Biaya_BP as $val)
+                        <?php
+                        $sumBiayaPB += intval(str_replace(['Rp. ', '.'], '', $val));
+                        ?>
                             {{ $val }} <br>
                         @endforeach
                     </td>

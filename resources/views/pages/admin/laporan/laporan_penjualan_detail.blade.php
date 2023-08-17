@@ -100,7 +100,7 @@
                                         $detail_Biaya_BP = explode(',', $p->detail_Biaya_BP);
                                         $detail_Total = explode(',', $p->detail_Total);
                                         // dd($detailIDProdukArray)
-                                        $sumTotal += intval(str_replace(['Rp. ', '.'], '', $p->detail_Total));
+                                        // $sumTotal += intval(str_replace(['Rp. ', '.'], '', $p->detail_Total));
                                         $no++;
                                         ?>
                                         <tr>
@@ -153,6 +153,10 @@
                                             </td>
                                             <td class="text-dark">
                                                 @foreach ($detail_Total as $val)
+                                                    <?php
+                                                    $sumTotal += intval(str_replace(['Rp. ', '.'], '', $val));
+                                                    
+                                                    ?>
                                                     {{ $val }} <br>
                                                 @endforeach
                                             </td>
@@ -170,7 +174,126 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Grafik Laporan Penjualan Detail</h4>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="form-row">
+                                <div class="col form-group">
+                                    <label class="text-dark"><b>Periode Awal </b><label style='color:red;'>*</label></label>
+                                    <input type="date" class="form-control" name="periodegrafikawalpenjualan"
+                                        id="periodegrafikawalpenjualan" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="text-dark"><b>Periode Akhir </b><label
+                                            style='color:red;'>*</label></label>
+                                    <input type="date" class="form-control" name="periodegrafikakhirpenjualan"
+                                        id="periodegrafikakhirpenjualan" required>
+                                </div>
+                                <div class="col form-group">
+                                    <button type="button" class="btn btn-primary" style="margin-top: 40px;"
+                                        onclick="lihatgrafikpenjualan()"><i class="fa fa-eye color-muted m-r-5"></i> Lihat
+                                        Grafik</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <canvas id="myChartpenjualan"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <script>
+        function lihatgrafikpenjualan() {
+            var awal = $('#periodegrafikawalpenjualan').val();
+            var akhir = $('#periodegrafikakhirpenjualan').val();
+            var dateArray = generateDateArray(awal, akhir);
+            $.ajax({
+                url: '/admin/grafik/penjualan/',
+                method: 'get',
+                data: {
+                    awal,
+                    akhir
+                },
+                dataType: 'json',
+                success: function(data) {
+                    // var datagrafilk = data;
+                    console.log(data);
+
+
+                    // var labels = Object.keys(data);
+                    // var values = Object.values(data);
+                    var labels = dateArray; // Use the generated date array as labels
+                    var values = dateArray.map(date => data[date] || 0);
+
+                    var ctx = document.getElementById('myChartpenjualan').getContext('2d');
+
+                    if (window.myChart) {
+                        window.myChart.destroy();
+                    }
+                    window.myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Total Penjualan',
+                                data: values,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Adjust as needed
+                                borderColor: 'rgba(75, 192, 192, 1)', // Adjust as needed
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Chart.js Grafik Penjualan'
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    type: 'category', // Use 'category' scale for non-numeric data
+                                },
+                                y: {
+                                    beginAtZero: true
+                                }
+                            },
+                        }
+                    });
+
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+
+        }
+
+        function generateDateArray(startDate, endDate) {
+            var dateArray = [];
+            var currentDate = new Date(startDate);
+            endDate = new Date(endDate);
+
+            while (currentDate <= endDate) {
+                dateArray.push(currentDate.toISOString().slice(0, 10));
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            return dateArray;
+        }
+    </script>
 @endsection

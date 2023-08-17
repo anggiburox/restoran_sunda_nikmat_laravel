@@ -89,6 +89,10 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::get('/admin/laporan/cetak/laporan_data_transaksi', [LaporanControllerAdmin::class, 'cetak_laporan_data_transaksi']);
     Route::get('/admin/laporan/cetak/laporan_penjualan_detail', [LaporanControllerAdmin::class, 'cetak_laporan_penjualan_detail']);
     Route::get('/admin/laporan/cetak/laporan_pb1_dan_biaya_service', [LaporanControllerAdmin::class, 'cetak_laporan_pb1_dan_biaya_service']);
+    Route::get('/admin/grafik/pajak', [LaporanControllerAdmin::class, 'grafikpajak']);
+    Route::get('/admin/grafik/penjualan', [LaporanControllerAdmin::class, 'grafikpenjualan']);
+
+
 });
 
 Route::middleware(['auth','spv_owner'])->group(function () {

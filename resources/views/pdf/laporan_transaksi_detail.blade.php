@@ -63,7 +63,6 @@
                 $detail_BP = explode(',', $p->detail_BP);
                 $detail_Biaya_BP = explode(',', $p->detail_Biaya_BP);
                 $detail_Total = explode(',', $p->detail_Total);
-                $sumTotal += intval(str_replace(['Rp. ', '.'], '', $p->detail_Total));
                 $no++;
                 ?>
                 <tr>
@@ -116,6 +115,10 @@
                     </td>
                     <td style="padding-left: 2px;">
                         @foreach ($detail_Total as $val)
+                        <?php
+                        $sumTotal += intval(str_replace(['Rp. ', '.'], '', $val));
+                        
+                        ?>
                             {{ $val }} <br>
                         @endforeach
                     </td>
